@@ -60,6 +60,7 @@ body {
   margin-bottom: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
+  
 }
 
 .form button {
@@ -80,4 +81,15 @@ body {
 
 .form p {
   text-align: center;
+}
+
+.error_container{
+
+  display: flex;
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+}
+.form_error{
+  color: red;
 }
