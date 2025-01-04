@@ -24,7 +24,7 @@ function Profile() {
   async function handleLogout() {
     try {
       await auth.signOut();
-      //   window.location.href = "/Login-Register";
+      window.location.href = "/Login-Register/";
       toast.warn("Logout Successfully", { position: "top-center" });
     } catch (error) {
       console.log("Error logOut");
