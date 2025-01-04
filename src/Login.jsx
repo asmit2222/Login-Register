@@ -2,21 +2,23 @@ import React, { useState } from "react";
 
 import { useFormik } from "formik";
 import { LoginSchema } from "./Validations/LoginValidation";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { toast } from "react-toastify";
+import { auth } from "./firebase";
 
 const initialValues = {
   email: "",
   password: "",
 };
 function Login({ setIsLogin }) {
-  const { values, handleBlur, handleChange, handleSubmit, errors, touched } =
-    useFormik({
-      initialValues,
-      validationSchema: LoginSchema,
-      onSubmit: (values, actions) => {
-        console.log(values);
-        actions.resetForm();
-      },
-    });
+  const { values, handleBlur, handleChange, errors, touched } = useFormik({
+    initialValues,
+    validationSchema: LoginSchema,
+    onSubmit: (values, actions) => {
+      console.log(values);
+      actions.resetForm();
+    },
+  });
   //   const handleChange = (e) => {
   //     e.preventDefault();
   //     const { name, value } = e.target;
@@ -27,14 +29,18 @@ function Login({ setIsLogin }) {
   //     });
   //   };
 
-  //   const handleSubmit = async (e) => {
-  //     e.preventDefault();
-  //     try {
-  //       await LoginSchema.validate(loginData);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await signInWithEmailAndPassword(auth, values.email, values.password);
+      // toast.success("user Login successfully", { position: "top-center" });
+      window.location.href = "/Login-Register/profile";
+      console.log("user login sucess");
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message, { position: "bottom-center" });
+    }
+  };
 
   return (
     <form action="" className="form" onSubmit={handleSubmit}>
@@ -67,9 +73,7 @@ function Login({ setIsLogin }) {
       />
 
       <a href="#">Forget Password?</a>
-      <button type="submit" onClick={(e) => e.preventDefault()}>
-        Login
-      </button>
+      <button type="submit">Login</button>
       <p>
         Not have an account?
         <a href="#" onClick={() => setIsLogin(false)}>

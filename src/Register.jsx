@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import { RegisterSchema } from "./Validations/RegisterValidation";
-
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth, db } from "./firebase";
+import { doc, setDoc } from "firebase/firestore";
+import { toast } from "react-toastify";
 const initialValues = {
   name: "",
   mobile: "",
@@ -11,15 +14,19 @@ const initialValues = {
 };
 
 function Register({ setIsLogin }) {
-  const { values, handleBlur, handleChange, handleSubmit, errors, touched } =
-    useFormik({
-      initialValues,
-      validationSchema: RegisterSchema,
-      onSubmit: (values, actions) => {
-        console.log(values);
-        actions.resetForm();
-      },
-    });
+  const { values, handleBlur, handleChange, errors, touched } = useFormik({
+    initialValues,
+    validationSchema: RegisterSchema,
+    onSubmit: (values, actions) => {
+      console.log(values);
+      actions.resetForm();
+    },
+    //  createUserWithEmailAndPassword(auth, values.email, values.password);
+    //   const user = auth.currentUser;
+    //   console.log(user);
+    //   console.log("login success");
+    // },
+  });
 
   //   const handleChange = (e) => {
   //     const { name, value } = e.target;
@@ -30,15 +37,27 @@ function Register({ setIsLogin }) {
   //     });
   //   };
 
-  //   const handleSubmit = async (e) => {
-  //     e.preventDefault();
-  //     try {
-  //       console.log(registerData);
-  //       await RegisterSchema.validate(registerData);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await createUserWithEmailAndPassword(auth, values.email, values.password);
+      const user = auth.currentUser;
+      console.log(user);
+      if (user) {
+        await setDoc(doc(db, "users", user.uid), {
+          email: user.email,
+          name: values.name,
+          mobile: values.mobile,
+          password: values.password,
+        });
+      }
+      toast.success("User registered successfully", { position: "top-center" });
+      console.log("user registered success");
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message, { position: "bottom-center" });
+    }
+  };
 
   return (
     <>
