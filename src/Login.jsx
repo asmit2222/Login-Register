@@ -5,6 +5,7 @@ import { LoginSchema } from "./Validations/LoginValidation";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { toast } from "react-toastify";
 import { auth } from "./firebase";
+import { useNavigate } from "react-router-dom";
 
 const initialValues = {
   email: "",
@@ -19,6 +20,8 @@ function Login({ setIsLogin }) {
       actions.resetForm();
     },
   });
+
+  const navigate = useNavigate();
   //   const handleChange = (e) => {
   //     e.preventDefault();
   //     const { name, value } = e.target;
@@ -34,7 +37,9 @@ function Login({ setIsLogin }) {
     try {
       await signInWithEmailAndPassword(auth, values.email, values.password);
       // toast.success("user Login successfully", { position: "top-center" });
-      window.location.href = "/Login-Register/profile";
+      // window.location.href = "/Login-Register/profile";
+
+      navigate("/Login-Register/profile");
       console.log("user login sucess");
     } catch (error) {
       console.log(error);

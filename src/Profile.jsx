@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react";
 import { auth, db } from "./firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 function Profile() {
   const [userDetails, seUserDetails] = useState(null);
+
+  const navigate = useNavigate();
 
   const fetchUserData = async (e) => {
     auth.onAuthStateChanged(async (user) => {
@@ -24,7 +27,9 @@ function Profile() {
   async function handleLogout() {
     try {
       await auth.signOut();
-      window.location.href = "/Login-Register/";
+      //   window.location.href = "/Login-Register/";
+      navigate("/Login-Register/");
+
       toast.warn("Logout Successfully", { position: "top-center" });
     } catch (error) {
       console.log("Error logOut");
