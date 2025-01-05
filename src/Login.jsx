@@ -12,14 +12,15 @@ const initialValues = {
   password: "",
 };
 function Login({ setIsLogin }) {
-  const { values, handleBlur, handleChange, errors, touched } = useFormik({
-    initialValues,
-    validationSchema: LoginSchema,
-    onSubmit: (values, actions) => {
-      console.log(values);
-      actions.resetForm();
-    },
-  });
+  const { values, handleBlur, handleChange, handleSubmit, errors, touched } =
+    useFormik({
+      initialValues,
+      validationSchema: LoginSchema,
+      onSubmit: (values, actions) => {
+        console.log(values);
+        actions.resetForm();
+      },
+    });
 
   const navigate = useNavigate();
   //   const handleChange = (e) => {
@@ -32,7 +33,7 @@ function Login({ setIsLogin }) {
   //     });
   //   };
 
-  const handleSubmit = async (e) => {
+  const handleClick = async (e) => {
     e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, values.email, values.password);
@@ -48,7 +49,14 @@ function Login({ setIsLogin }) {
   };
 
   return (
-    <form action="" className="form" onSubmit={handleSubmit}>
+    <form
+      action=""
+      className="form"
+      onSubmit={(e) => {
+        handleSubmit(e);
+        handleClick(e);
+      }}
+    >
       <h2>Enter Login Details</h2>
       <div className="error_container">
         {errors.email && touched.email && (

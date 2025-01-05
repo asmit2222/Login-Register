@@ -14,19 +14,20 @@ const initialValues = {
 };
 
 function Register({ setIsLogin }) {
-  const { values, handleBlur, handleChange, errors, touched } = useFormik({
-    initialValues,
-    validationSchema: RegisterSchema,
-    onSubmit: (values, actions) => {
-      console.log(values);
-      actions.resetForm();
-    },
-    //  createUserWithEmailAndPassword(auth, values.email, values.password);
-    //   const user = auth.currentUser;
-    //   console.log(user);
-    //   console.log("login success");
-    // },
-  });
+  const { values, handleBlur, handleChange, errors, touched, handleSubmit } =
+    useFormik({
+      initialValues,
+      validationSchema: RegisterSchema,
+      onSubmit: (values, actions) => {
+        console.log(values);
+        actions.resetForm();
+      },
+      //  createUserWithEmailAndPassword(auth, values.email, values.password);
+      //   const user = auth.currentUser;
+      //   console.log(user);
+      //   console.log("login success");
+      // },
+    });
 
   //   const handleChange = (e) => {
   //     const { name, value } = e.target;
@@ -37,7 +38,7 @@ function Register({ setIsLogin }) {
   //     });
   //   };
 
-  const handleSubmit = async (e) => {
+  const handleClick = async (e) => {
     e.preventDefault();
     try {
       await createUserWithEmailAndPassword(auth, values.email, values.password);
@@ -61,7 +62,13 @@ function Register({ setIsLogin }) {
 
   return (
     <>
-      <form className="form" onSubmit={handleSubmit}>
+      <form
+        className="form"
+        onSubmit={(e) => {
+          handleSubmit(e);
+          handleClick(e);
+        }}
+      >
         <h2>Register here</h2>
         <div className="error_container">
           {errors.name && touched.name && (
