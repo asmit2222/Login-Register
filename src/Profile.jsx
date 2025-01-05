@@ -28,7 +28,7 @@ function Profile() {
     try {
       await auth.signOut();
       //   window.location.href = "/Login-Register/";
-      navigate("/Login-Register/");
+      navigate("/");
 
       toast.warn("Logout Successfully", { position: "top-center" });
     } catch (error) {

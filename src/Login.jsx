@@ -39,7 +39,7 @@ function Login({ setIsLogin }) {
       // toast.success("user Login successfully", { position: "top-center" });
       // window.location.href = "/Login-Register/profile";
 
-      navigate("/Login-Register/profile");
+      navigate("/profile");
       console.log("user login sucess");
     } catch (error) {
       console.log(error);

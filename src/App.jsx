@@ -20,8 +20,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/Login-Register/" element={<Form />} />
-        <Route path="/Login-Register/profile/" element={<Profile />} />
+        <Route path="/" element={<Form />} />
+        <Route path="/profile/" element={<Profile />} />
       </Routes>
       <ToastContainer />
     </Router>
