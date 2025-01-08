@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { auth, db } from "./firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 function Profile() {
-  const [userDetails, seUserDetails] = useState(null);
+  const [userDetails, setUserDetails] = useState(null);
 
   const navigate = useNavigate();
 
@@ -12,10 +12,11 @@ function Profile() {
     auth.onAuthStateChanged(async (user) => {
       console.log(user);
       const docRef = doc(db, "users", user.uid);
+
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
-        seUserDetails(docSnap.data());
+        setUserDetails(docSnap.data());
       }
     });
   };
@@ -46,6 +47,7 @@ function Profile() {
             <p>Mobile: {userDetails.mobile}</p>
           </div>
           <button onClick={handleLogout}>Logout</button>
+          <Link to="/edit-profile">Edit Profile</Link>
         </>
       ) : (
         <p>Loading...</p>
