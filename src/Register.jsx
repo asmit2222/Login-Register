@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import { RegisterSchema } from "./Validations/RegisterValidation";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
 import { auth, db } from "./firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
@@ -12,7 +16,7 @@ const initialValues = {
   password: "",
   confirmPassword: "",
 };
-
+const provider = new GoogleAuthProvider();
 function Register({ setIsLogin }) {
   const { values, handleBlur, handleChange, errors, touched, handleSubmit } =
     useFormik({
@@ -37,6 +41,39 @@ function Register({ setIsLogin }) {
   //       [name]: value,
   //     });
   //   };
+  // const handleGoogleLogin = async (e) => {
+  //   // e.preventDefault();
+  //   await signInWithPopup(auth, provider)
+  //     .then((result) => {
+  //       // This gives you a Google Access Token. You can use it to access the Google API.
+  //       const credential = GoogleAuthProvider.credentialFromResult(result);
+  //       const token = credential.accessToken;
+  //       // The signed-in user info.
+  //       const user = result.user;
+  //       console.log(user);
+  //       if (user) {
+  //         setDoc(doc(db, "users", user.uid), {
+  //           email: user.email,
+  //           name: user.email,
+  //           mobile: 789,
+  //           password: "",
+  //         });
+  //       }
+  //       // IdP data available using getAdditionalUserInfo(result)
+  //       // ...
+  //       navigate("/profile");
+  //     })
+  //     .catch((error) => {
+  //       // Handle Errors here.
+  //       const errorCode = error.code;
+  //       const errorMessage = error.message;
+  //       // The email of the user's account used.
+  //       const email = error.customData.email;
+  //       // The AuthCredential type that was used.
+  //       const credential = GoogleAuthProvider.credentialFromError(error);
+  //       // ...
+  //     });
+  // };
 
   const handleClick = async (e) => {
     e.preventDefault();

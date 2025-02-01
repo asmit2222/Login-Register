@@ -12,7 +12,7 @@ import Profile from "./Profile";
 import EditProfile from "./EditProfile";
 import { auth } from "./firebase";
 function App() {
-  // const [user, setUser] = useState(0);
+  // const [user, setUser] = useState(null);
   // useEffect(() => {
   //   auth.onAuthStateChanged((user) => {
   //     setUser(user);

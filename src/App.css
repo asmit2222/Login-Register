@@ -93,3 +93,13 @@ body {
 .form_error{
   color: red;
 }
+
+.googleLoginBtn{
+  background-color: #ddd;
+  color: rgb(85, 102, 102);
+  padding: 10px;
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
